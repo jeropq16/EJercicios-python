@@ -1,122 +1,122 @@
-#iniciamos creando un diccionario el cual definimos como inventario 
-inventario = {}
-#creamos varias funciones para mas adelante llamarlas en un menu de opciones
-def añadirp():
-    nombre = input("Ingrese el nombre del producto: ")
-    while not nombre.replace(" ", "").isalpha():  # Permitir espacios en nombres
-        print("Caracteres invalidos")
-        print("Por favor ingrese solo letras y espacios")
-        nombre = input()
+inventory = {}
 
-    while True:
-        precio = input("¿Cuál es el precio del producto?: ")
-        try:
-            precio = float(precio)
-            if precio > 0:
-                break
-            else:
-                print("El valor debe ser superior a 0.")
-        except ValueError:
-            print("Ingresa un precio válido.")
+lgenres= ["fiction", "nonfiction", "science", "biography", "children"]
 
-    while True:
-        cantidad = input("¿Cuántas cantidades hay disponibles?: ")
-        try:
-            cantidad = int(cantidad)
-            if cantidad > 0:
-                break
-            else:
-                print("El valor debe ser superior a 0.")
-        except ValueError:
-            print("Ingresa una cantidad válida.")
 
-    inventario[nombre] = {'precio': precio, 'cantidad': cantidad}
-    print(f"Producto {nombre} añadido correctamente.")
-#usamos un .replace y un .isalpha para validar que solo se ingresen letras el .replace es para permitir la entrada de espacios en el input del usuario 
-def consultarp():
-    nombre = input("Ingrese el nombre del producto: ")
-    while not nombre.replace(" ", "").isalpha():  # Permitir espacios en nombres
-        print("Caracteres invalidos")
-        print("Por favor ingrese solo letras y espacios")
-        nombre = input()
-    if nombre in inventario:
-        producto = inventario[nombre]
-        print(f"Producto: {nombre}, Precio: {producto['precio']}, Cantidad: {producto['cantidad']}")
+
+def addbooks():
+    name = input("Enter the name of the book: ")
+    author = input("Enter the author: ")
+    copies = int(input("Enter the number of copies: "))
+    genre = input("Enter the genre of the book: ")
+    inventory [name] = {"name": name, "author": author, "copies": copies, "genre": genre}
+    print (f"{name} added correctly")
+
+
+    print (inventory)
+
+def searchbooks():
+    name = input("Enter the name of the book: ")
+    if name in inventory:
+        product = inventory[name]
+        print(f"book name : {name}, author: {product ["author"]}, copies: {product["copies"]}, genre: {product["genre"]}")
     else:
-        print(f"El producto {nombre} no está en el inventario.")
+        print(f"The book {name} is not in the inventory")
 
-def actualizarp():
-    nombre = input("Ingrese el nombre del producto a actualizar: ")
-    while not nombre.replace(" ", "").isalpha():  # Permitir espacios en nombres
-        print("Caracteres invalidos")
-        print("Por favor ingrese solo letras y espacios")
-        nombre = input()
-    
-    if nombre in inventario:
-        while True:
-            try:
-                nuevoprecio = float(input("¿Cuál es el nuevo precio del producto? "))
-                if nuevoprecio > 0:
-                    break
-                else:
-                    print("El valor debe ser superior a 0.")
-            except ValueError:
-                print("Ingresa un precio válido.")
 
-        inventario[nombre]['precio'] = nuevoprecio
-        print(f"El precio del producto {nombre} ha sido actualizado.")
-    else:
-        print(f"El producto {nombre} no existe en el inventario.")
-
-def eliminarp():
-    nombre = input("Ingrese el nombre del producto que quiere eliminar: ")
-    while not nombre.replace(" ", "").isalpha(): 
-        print("Caracteres invalidos")
-        print("Por favor ingrese solo letras y espacios")
-        nombre = input()
-    
-    if nombre in inventario:
-        del inventario[nombre]
-        print(f"Producto {nombre} eliminado correctamente.")
-    else:
-        print(f"El producto {nombre} no está en el inventario.")
-#usamos lambda para sumar y despues multiplicar el total de inventario 
-def calcularvalor():
-    total = sum(map(lambda producto: float(producto['precio']) * int(producto['cantidad']), inventario.values()))
-    print(f"El valor total del inventario es: {total}")
-
-def menu():
-    print("Menú de gestión de inventario")
-    print("1. Añadir producto")
-    print("2. Consultar producto")
-    print("3. Actualizar precio")
-    print("4. Eliminar producto")
-    print("5. Calcular valor total del inventario")
-    print("6. Salir")
-#funcion para ejecutar el menú
-def gestionari():
-    while True:
-        menu()
-        try:
-            opcion = int(input("Ingrese una opción: "))
-        except ValueError:
-            print("Por favor ingrese un número válido.")
-            continue
-        
-        if opcion == 1:
-            añadirp()
-        elif opcion == 2:
-            consultarp()
-        elif opcion == 3:
-            actualizarp()
-        elif opcion == 4:
-            eliminarp()
-        elif opcion == 5:
-            calcularvalor()
-        elif opcion == 6:
-            print("Gracias por usar el programa")
-            break
+def loanbooks():
+    name = input("Enter the name of the book you want to loan: ")
+    if name in inventory:
+        if inventory[name]["copies"] >0:
+           inventory[name]["copies"] -=1
+           print(f"The book has been loan, return the book in two days")
         else:
-            print("Por favor ingrese una opción válida.")
+            print("No copies of this book are available")
+    else:
+        print("This book is not in inventory")
 
-gestionari()
+
+def returnbooks():
+    name = input("Enter the name of the book what you want to return: ")
+    if name in inventory:
+        inventory [name]["copies"] +=1
+        print("Tnaks for return the book")
+
+
+def deletebooks():
+    name = input("Enter the name of the book what you want delete: ")
+    if name in inventory:
+        deletecopies = int(input("How many copies do you want delete?: "))
+        if deletecopies <= inventory[name]["copies"]:
+            inventory [name]["copies"] -= deletecopies
+            print(f"{deletecopies} copies of {name} has been deleted")
+        else:
+            print("You can't delete more copies than those in your inventory")
+    else:
+        print("The book is not in the inventory")
+
+
+def listbooks():
+    for i, x in enumerate (lgenres,1):
+        print (f"{i}: {x}")
+
+    case= int(input("Enter a number?: "))
+
+
+    for name, a in inventory.items():
+    
+        if case == 1:
+            if "fiction" == a["genre"]:
+                print (name)
+        elif case == 2:
+            if "nonfiction" == a["genre"]:
+                print (name)
+        elif case == 3:
+            if "science" == a["genre"]:
+                print (name)
+        elif case == 4:
+            if "biography" == a["genre"]:
+                print (name)
+        elif case == 5:
+            if "children" == a["genre"]:
+                print (name)
+        else:
+            print("please enter a valid option")
+            
+
+def totalinventory():
+    for name, a in inventory.items():
+        print(f"{name}: {a["copies"]} copies")
+
+
+while True:
+    print('''main menu
+          1. add books
+          2. search books
+          3. loans books
+          4. return books
+          5. delete books
+          6. search for genre
+          7. total inventory
+          8. quit the program  ''')
+    
+    option = input("Enter an option: ")
+    if option == "1":
+        addbooks()
+    elif option == "2":
+        searchbooks()
+    elif option == "3":
+        loanbooks()
+    elif option == "4":
+        returnbooks()
+    elif option == "5":
+        deletebooks()
+    elif option == "6":
+        listbooks()
+    elif option == "7":
+        totalinventory()
+    elif option == "8":
+        print ("Thanks for using the program")
+        break    
+    else:
+        print("Please enter a valid option")
